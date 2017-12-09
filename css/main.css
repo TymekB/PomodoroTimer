@@ -57,6 +57,7 @@ body
     background: transparent;
     border: none;
     color: #d6d6d6;
+    outline: none;
 }
 
 .timer-buttons .btn:hover
