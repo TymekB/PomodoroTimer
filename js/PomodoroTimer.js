@@ -12,7 +12,23 @@ function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
     {
         this.sec--;
 
-        if(this.sec < 0)
+        if(this.timeOut())
+        {
+            this.pause();
+
+            if(!this.break)
+            {
+                this.break = true;
+                this.breakConfirmation();
+            }
+            else
+            {
+                this.break = false;
+                this.sessionConfirmation();
+            }
+        }
+
+        if(this.sec <= 0)
         {
             this.sec = 59;
             this.min--;
@@ -26,22 +42,6 @@ function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
         if(this.sec < 10)
         {
             this.sec = "0" + this.sec;
-        }
-
-        if(this.timeOut())
-        {
-            this.pause();
-
-            if(!this.break)
-            {
-                this.break = true;
-                this.startBreak();
-            }
-            else
-            {
-                this.break = false;
-                this.startSession();
-            }
         }
 
         this.render();
@@ -87,10 +87,42 @@ function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
         this.start();
     }
 
+    this.sessionConfirmation = function()
+    {
+        if(confirm('Do you want to start session?'))
+        {
+            this.startSession();
+        }
+        else
+        {
+            location.reload();
+        }
+    }
+
+    this.breakConfirmation = function()
+    {
+        if(confirm('Do you want to start break?'))
+        {
+            this.startBreak();
+        }
+        else
+        {
+            location.reload();
+        }
+    }
+
     this.render = function()
     {
         $(DOMElement).html(this.min + ":" + this.sec);
-        $('title').text("Session " + this.min + ":" + this.sec);
+
+        if(this.break)
+        {
+            $('title').text("Break " + this.min + ":" + this.sec);
+        }
+        else
+        {
+            $('title').text("Session " + this.min + ":" + this.sec);
+        }
     }
 
 }
