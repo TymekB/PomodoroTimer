@@ -1,1 +1,5 @@
-var timer = new PomodoroTimer(25, 5);
+var timer = new PomodoroTimer();
+
+$('#start').click(function(){
+    timer.start();
+});
