@@ -1,12 +1,14 @@
 function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
 {
+    this.DOMElement = DOMElement;
     this.sessionTime = sessionTime;
     this.breakTime = breakTime;
     this.min = this.sessionTime;
     this.sec = 0;
     this.timer = null;
-    this.DOMElement = DOMElement;
     this.break = false;
+    this.sessionsCounter = localStorage.getItem('sessionsCounter') || 0;
+    this.breaksCounter = localStorage.getItem('breaksCounter') || 0;
 
     this.onTick = function()
     {
@@ -19,11 +21,17 @@ function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
             if(!this.break)
             {
                 this.break = true;
+                this.sessionsCounter++;
+                localStorage.setItem('sessionsCounter', this.sessionsCounter);
+
                 this.breakConfirmation();
             }
             else
             {
                 this.break = false;
+                this.breaksCounter++;
+                localStorage.setItem('breaksCounter', this.breaksCounter);
+
                 this.sessionConfirmation();
             }
         }
@@ -65,7 +73,7 @@ function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
 
         this.timer = setInterval(function(){
             _this.onTick();
-        }, 1000);
+        }, 1);
     }
 
     this.pause = function()
@@ -123,6 +131,8 @@ function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
         {
             $('title').text("Session " + this.min + ":" + this.sec);
         }
-    }
 
+        $('#sessions').html("Sessions: " + this.sessionsCounter);
+        $('#breaks').html("Breaks: " + this.breaksCounter);
+    }
 }

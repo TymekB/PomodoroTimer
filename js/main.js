@@ -18,3 +18,6 @@ $('#reset').click(function(){
     location.reload();
 });
 
+$('#sessions').html('Sessions: ' + timer.sessionsCounter);
+$('#breaks').html('Breaks: ' + timer.breaksCounter);
+
