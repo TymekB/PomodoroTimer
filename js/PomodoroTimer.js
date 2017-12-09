@@ -30,7 +30,18 @@ function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
 
         if(this.timeOut())
         {
-            clearInterval(this.timer);
+            this.pause();
+
+            if(!this.break)
+            {
+                this.break = true;
+                this.startBreak();
+            }
+            else
+            {
+                this.break = false;
+                this.startSession();
+            }
         }
 
         this.render();
@@ -60,6 +71,20 @@ function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
     this.pause = function()
     {
         clearInterval(this.timer);
+    }
+
+    this.startSession = function()
+    {
+        this.min = sessionTime;
+        this.sec = 0;
+        this.start();
+    }
+
+    this.startBreak = function()
+    {
+        this.min = breakTime;
+        this.sec = 0;
+        this.start();
     }
 
     this.render = function()
