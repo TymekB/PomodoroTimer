@@ -73,7 +73,7 @@ function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
 
         this.timer = setInterval(function(){
             _this.onTick();
-        }, 1);
+        }, 1000);
     }
 
     this.pause = function()
@@ -117,6 +117,13 @@ function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
         {
             location.reload();
         }
+    }
+
+    this.resetCounters = function()
+    {
+        localStorage.removeItem('sessionsCounter');
+        localStorage.removeItem('breaksCounter');
+        location.reload();
     }
 
     this.render = function()
