@@ -1,10 +1,11 @@
-function PomodoroTimer(sessionTime = 25, breakTime = 5)
+function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
 {
     this.sessionTime = sessionTime;
     this.breakTime = breakTime;
     this.min = this.sessionTime;
     this.sec = 0;
     this.timer = null;
+    this.DOMElement = DOMElement;
 
     this.onTick = function()
     {
@@ -14,6 +15,16 @@ function PomodoroTimer(sessionTime = 25, breakTime = 5)
         {
             this.sec = 59;
             this.min--;
+
+            if(this.min < 10)
+            {
+                this.min = "0" + this.min;
+            }
+        }
+
+        if(this.sec < 10)
+        {
+            this.sec = "0" + this.sec;
         }
 
         if(this.timeOut())
@@ -21,7 +32,7 @@ function PomodoroTimer(sessionTime = 25, breakTime = 5)
             clearInterval(this.timer);
         }
 
-        console.log('Min: '+this.min+' | '+' Sec: '+this.sec);
+        this.render();
     }
 
     this.timeOut = function()
@@ -42,7 +53,13 @@ function PomodoroTimer(sessionTime = 25, breakTime = 5)
 
         this.timer = setInterval(function(){
             _this.onTick();
-        }, 1);
+        }, 1000);
+    }
+
+    this.render = function()
+    {
+        $(DOMElement).html(this.min + ":" + this.sec);
+        $('title').text("Session " + this.min + ":" + this.sec);
     }
 
 }
