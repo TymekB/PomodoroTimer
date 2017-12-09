@@ -6,6 +6,7 @@ function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
     this.sec = 0;
     this.timer = null;
     this.DOMElement = DOMElement;
+    this.break = false;
 
     this.onTick = function()
     {
@@ -54,6 +55,11 @@ function PomodoroTimer(DOMElement, sessionTime = 25, breakTime = 5)
         this.timer = setInterval(function(){
             _this.onTick();
         }, 1000);
+    }
+
+    this.pause = function()
+    {
+        clearInterval(this.timer);
     }
 
     this.render = function()
